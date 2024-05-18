@@ -21,15 +21,16 @@ int main() {
   for (int i = 0; i < MapSize; i++) {
     for (int j = 0; j < MapSize; j++) {
       map[i][j] = (GRID *)malloc(sizeof(GRID));
-      if(i == 0)
+      if (i == 0)
         map[i][j]->typ[0] = 1;
-      else if(j == 0)
+      else if (j == 0)
         map[i][j]->typ[0] = 1;
-      else if(i == MapSize-1)
+      else if (i == MapSize - 1)
         map[i][j]->typ[0] = 1;
-      else if(j == MapSize-1)
+      else if (j == MapSize - 1)
         map[i][j]->typ[0] = 1;
-      else map[i][j]->typ[0] = (rand() & 1) + 1;
+      else
+        map[i][j]->typ[0] = (rand() & 1) + 1;
       map[i][j]->typ[1] = 0;
       map[i][j]->el = NULL;
     }
@@ -67,29 +68,32 @@ int main() {
       }
     }
   }
-  for (int i = 1; i < MapSize-1; i++) {
-    for (int j = 1; j < MapSize-1; j++) {
-      if (map[i][j]->typ[0] == 2 && map[i-1][j]->typ[0] == 1 && map[i][j+1]->typ[0] == 1)
-          map[i][j]->typ[0] = 3;
-      if (map[i][j]->typ[0] == 2 && map[i+1][j]->typ[0] == 1 && map[i][j+1]->typ[0] == 1)
-          map[i][j]->typ[0] = 5;
-      if (map[i][j]->typ[0] == 2 && map[i-1][j]->typ[0] == 1 && map[i][j-1]->typ[0] == 1)
-          map[i][j]->typ[0] = 9;
-      if (map[i][j]->typ[0] == 2 && map[i+1][j]->typ[0] == 1 && map[i][j-1]->typ[0] == 1)
-          map[i][j]->typ[0] = 11;
-      
+  for (int i = 1; i < MapSize - 1; i++) {
+    for (int j = 1; j < MapSize - 1; j++) {
+      if (map[i][j]->typ[0] == 2 && map[i - 1][j]->typ[0] == 1 &&
+          map[i][j + 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 3;
+      if (map[i][j]->typ[0] == 2 && map[i + 1][j]->typ[0] == 1 &&
+          map[i][j + 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 5;
+      if (map[i][j]->typ[0] == 2 && map[i - 1][j]->typ[0] == 1 &&
+          map[i][j - 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 9;
+      if (map[i][j]->typ[0] == 2 && map[i + 1][j]->typ[0] == 1 &&
+          map[i][j - 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 11;
     }
   }
-  for (int i = 1; i < MapSize-1; i++) {
-    for (int j = 1; j < MapSize-1; j++) {
-      if (map[i][j]->typ[0] == 2 && map[i][j+1]->typ[0] == 1)
-          map[i][j]->typ[0] = 4;
-      if (map[i][j]->typ[0] == 2 && map[i-1][j]->typ[0] == 1)
-          map[i][j]->typ[0] = 6;
-      if (map[i][j]->typ[0] == 2 && map[i+1][j]->typ[0] == 1)
-          map[i][j]->typ[0] = 8;
-      if (map[i][j]->typ[0] == 2 && map[i][j-1]->typ[0] == 1)
-          map[i][j]->typ[0] = 10;
+  for (int i = 1; i < MapSize - 1; i++) {
+    for (int j = 1; j < MapSize - 1; j++) {
+      if (map[i][j]->typ[0] == 2 && map[i][j + 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 4;
+      if (map[i][j]->typ[0] == 2 && map[i - 1][j]->typ[0] == 1)
+        map[i][j]->typ[0] = 6;
+      if (map[i][j]->typ[0] == 2 && map[i + 1][j]->typ[0] == 1)
+        map[i][j]->typ[0] = 8;
+      if (map[i][j]->typ[0] == 2 && map[i][j - 1]->typ[0] == 1)
+        map[i][j]->typ[0] = 10;
     }
   }
   // respienie jednostki
@@ -172,10 +176,13 @@ int main() {
         rbudynku = 2;
         break;
       case 2: // budowa cyard
-        printf("%d %d %d %d\n", map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0],
+        printf(
+            "%d %d %d %d\n",
+            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0],
             map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0],
             map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0],
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[0]);
+            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+                ->typ[0]);
         if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] >
                 1 ||
             map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] >
@@ -196,22 +203,28 @@ int main() {
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
         map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] = 3;
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] = 4;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] = 5;
+        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] =
+            5;
         CYARD *baza = malloc(sizeof(CYARD));
-        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] == 0)
+        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
+        // 0)
         //   hp+=50;
-        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] == 0)
+        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
+        // == 0)
         //   hp+=50;
-        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] == 0)
+        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
+        // == 0)
         //   hp+=50;
-        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[0] == 0)
+        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
+        // 1]->typ[0] == 0)
         //   hp+=50;
-        baza->hp=300;
+        baza->hp = 300;
 
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el=baza;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el=baza;
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->el=baza;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el=baza;
+        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el = baza;
+        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el = baza;
+        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->el = baza;
+        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el =
+            baza;
         rbudynku = 1;
         // znacznik[2]=2; do usuwania znacznika po wybudowaniu
       default:
