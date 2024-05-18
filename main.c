@@ -10,7 +10,7 @@
 #include <allegro5/mouse.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <time.h> 
 
 void edjednostka(JEDNOSTKA *j1) { // funkcja do zmiany pozycji
 }
