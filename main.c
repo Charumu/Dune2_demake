@@ -272,8 +272,8 @@ int main() {
           case 0:
             break;
           case Id_Jednostka:
-            al_draw_bitmap(tekstury_jednostki[0][0], TilePxs * x, TilePxs * y + TopHeight,
-                           0);
+            al_draw_bitmap(tekstury_jednostki[0][0], TilePxs * x,
+                           TilePxs * y + TopHeight, 0);
             break;
           default:
             al_draw_bitmap(
@@ -284,7 +284,7 @@ int main() {
           }
           if (!znacznik[2])
             continue;
-          if(znacznik[0]>13 || znacznik[1]<0)
+          if (znacznik[0] > 13 || znacznik[1] < 0)
             break;
           if (znacznik[2] > 0 && znacznik[2] < 3) {
             if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1])
