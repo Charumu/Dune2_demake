@@ -117,7 +117,8 @@ int main() {
   ALLEGRO_BITMAP *tekstury[] = {
       al_load_bitmap("./images/zaznaczenie.png"), // mapa bitowa tekstur
       al_load_bitmap("./images/zaznaczenie_nie.png"),
-  };
+      al_load_bitmap("./images/pasek_gorny.png"),
+      al_load_bitmap("./images/panel_boczny.png")};
   ALLEGRO_BITMAP *tekstury_ziemia[] = {
       al_load_bitmap("./images/slab.png"), // mapa bitowa podłoża
       al_load_bitmap("./images/piasek.png"),
@@ -246,7 +247,7 @@ int main() {
           campoz[0] -= 1;
         break;
       case 83:
-        if (campoz[0] + 14 < MapSize)
+        if (campoz[0] + 15 < MapSize)
           campoz[0] += 1;
         break;
       default:
@@ -263,7 +264,9 @@ int main() {
       break;
 
     if (redraw && al_is_event_queue_empty(queue)) { // rysowanie
-      for (int x = 0; x < 14 && (campoz[0]) + x < MapSize; x++)
+      al_draw_bitmap(tekstury[2], 0, 0, 0);
+      al_draw_bitmap(tekstury[3], 1053, 174, 0);
+      for (int x = 0; x < 15 && (campoz[0]) + x < MapSize; x++)
         for (int y = 0; y < 10 && (campoz[1]) + y < MapSize; y++) {
           al_draw_bitmap(
               tekstury_ziemia[(map[(campoz[0]) + x][(campoz[1]) + y]->typ[0])],
@@ -284,7 +287,7 @@ int main() {
           }
           if (!znacznik[2])
             continue;
-          if (znacznik[0] > 13 || znacznik[1] < 0)
+          if (znacznik[0] > 14 || znacznik[1] < 0)
             break;
           if (znacznik[2] > 0 && znacznik[2] < 3) {
             if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1])
