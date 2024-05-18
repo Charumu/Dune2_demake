@@ -156,9 +156,9 @@ int main() {
       break;
     case ALLEGRO_EVENT_MOUSE_AXES:
       mouse[0] = event.mouse.x; // pobranie pozycji myszy do zmiennych
-      mouse[1] = event.mouse.y;
+      mouse[1] = event.mouse.y - 34;
       znacznik[0] = (int)(mouse[0] / TilePxs); // ustawienie znacznika
-      znacznik[1] = (int)(mouse[1] / TilePxs);
+      znacznik[1] = (int)(mouse[1] / TilePxs) - 2;
       break;
     case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
       if (map[znacznik[0] + campoz[0]]
@@ -267,30 +267,32 @@ int main() {
         for (int y = 0; y < 10 && (campoz[1]) + y < MapSize; y++) {
           al_draw_bitmap(
               tekstury_ziemia[(map[(campoz[0]) + x][(campoz[1]) + y]->typ[0])],
-              TilePxs * x, TilePxs * y, 0);
+              TilePxs * x, TilePxs * y + TopHeight, 0);
           switch (map[(campoz[0]) + x][(campoz[1]) + y]->typ[1]) {
           case 0:
             break;
           case Id_Jednostka:
-            al_draw_bitmap(tekstury_jednostki[0][0], TilePxs * x, TilePxs * y,
+            al_draw_bitmap(tekstury_jednostki[0][0], TilePxs * x, TilePxs * y + TopHeight,
                            0);
             break;
           default:
             al_draw_bitmap(
                 tekstury_budynki[map[(campoz[0]) + x][(campoz[1]) + y]->typ[1] -
                                  2],
-                TilePxs * x, TilePxs * y, 0);
+                TilePxs * x, TilePxs * y + TopHeight, 0);
             break;
           }
           if (!znacznik[2])
             continue;
+          if(znacznik[0]>13 || znacznik[1]<0)
+            break;
           if (znacznik[2] > 0 && znacznik[2] < 3) {
             if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1])
               znacznik[2] = 2;
             else
               znacznik[2] = 1;
             al_draw_bitmap(tekstury[znacznik[2] - 1], znacznik[0] * TilePxs,
-                           znacznik[1] * TilePxs, 0);
+                           znacznik[1] * TilePxs + 174, 0);
           }
         }
       al_flip_display();
