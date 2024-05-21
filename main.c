@@ -311,3 +311,10 @@ int main() {
 
   return 0;
 }
+/*
+budowa cyard 
+ruch jednostek
+budowa z cyard
+produkcja jednostek
+walka
+*/
