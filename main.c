@@ -312,9 +312,9 @@ int main() {
   return 0;
 }
 /*
-budowa cyard 
-ruch jednostek
-budowa z cyard
-produkcja jednostek
-walka
+budowa cyard stawianie z MCV
+ruch jednostek algorytm A*
+budowa z cyard - tablica [3][6]
+produkcja jednostek podobnie jak produkcja z cyard
+walka system oparty na cyklach
 */
