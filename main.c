@@ -207,19 +207,20 @@ int main() {
         map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] =
             5;
         CYARD *baza = malloc(sizeof(CYARD));
-        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
-        // 0)
-        //   hp+=50;
-        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
-        // == 0)
-        //   hp+=50;
-        // if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
-        // == 0)
-        //   hp+=50;
-        // if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
-        // 1]->typ[0] == 0)
-        //   hp+=50;
-        baza->hp = 300;
+        int hp = 100;
+        if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
+        0)
+          hp+=25;
+        if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
+        == 0)
+          hp+=25;
+        if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
+        == 0)
+          hp+=25;
+        if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
+        1]->typ[0] == 0)
+          hp+=25;
+        baza->hp = hp;
 
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el = baza;
         map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el = baza;
