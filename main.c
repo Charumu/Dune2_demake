@@ -16,6 +16,7 @@ void edjednostka(JEDNOSTKA *j1) { // funkcja do zmiany pozycji
 }
 int main() {
   unsigned int zaznaczone[3];
+  bool budowanie = false;
   int campoz[2] = {0, 0};      // pozycja kamery
   GRID *map[MapSize][MapSize]; // tworzenie mapy
   srand(time(NULL));
@@ -111,7 +112,6 @@ int main() {
       zaznaczone[0] = i;
       zaznaczone[1] = i;
       zaznaczone[2] = map[i][i]->typ[1];
-      printf("%d , %d , %d ", zaznaczone[0], zaznaczone[1], zaznaczone[2]);
       break;
     }
   }
@@ -197,6 +197,12 @@ int main() {
       znacznik[1] = (int)(mouse[1] / TilePxs) - 2;
       break;
     case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+      if(mouse[0] > 1124 && mouse[1] > 451 && mouse[0] < 1394 && mouse[1] < 503){
+        budowanie = true;
+      }
+      if(mouse[0] > 1128 && mouse[1] > 392 && mouse[0] < 1389 && mouse[1] < 449){
+        budowanie = false;
+      }
       if (!znacznik[2] ||
           map[znacznik[0] + campoz[0]]
              [znacznik[1] + campoz[1]] // sprawdzanie czy pole zajęte
@@ -207,10 +213,11 @@ int main() {
         break;
       case 1: // budowa fundamentu
         if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] < 2 ||
-            znacznik[0] > 14 || znacznik[1] < 0 || !znacznik[2])
+            znacznik[0] > 14 || znacznik[1] < 0 || !znacznik[2] || !budowanie)
           break;
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] =
             fundament;
+            budowanie = false;
         break;
       // case 2: // budowa cyard
       //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1]
@@ -288,7 +295,6 @@ int main() {
           campoz[0] += 1;
         break;
       default:
-        printf("%d\n", event.keyboard.keycode);
         break;
       }
       break;
@@ -349,6 +355,7 @@ int main() {
               znacznik[2] = 2;
             else
               znacznik[2] = 1;
+              if(budowanie)
             al_draw_bitmap(tekstury[znacznik[2] - 1], znacznik[0] * TilePxs,
                            znacznik[1] * TilePxs + 174, 0);
           }
