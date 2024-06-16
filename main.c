@@ -15,7 +15,7 @@
 void edjednostka(JEDNOSTKA *j1) { // funkcja do zmiany pozycji
 }
 int main() {
-  unsigned int BuildPower = 5;
+  unsigned int zaznaczone[3];
   int campoz[2] = {0, 0};      // pozycja kamery
   GRID *map[MapSize][MapSize]; // tworzenie mapy
   srand(time(NULL));
@@ -104,10 +104,14 @@ int main() {
       map[i + 1][i]->typ[1] = 3;
       map[i][i + 1]->typ[1] = 4;
       map[i + 1][i + 1]->typ[1] = 5;
-      if(i > 5){
-        campoz[0]=i-6;
-        campoz[1]=i-4;
+      if (i > 5) {
+        campoz[0] = i - 6;
+        campoz[1] = i - 4;
       }
+      zaznaczone[0] = i;
+      zaznaczone[1] = i;
+      zaznaczone[2] = map[i][i]->typ[1];
+      printf("%d , %d , %d ", zaznaczone[0], zaznaczone[1], zaznaczone[2]);
       break;
     }
   }
@@ -160,12 +164,18 @@ int main() {
       al_load_bitmap("./images/kamulec9.png")};
   ALLEGRO_BITMAP *tekstury_jednostki[][3] = {
       al_load_bitmap("./images/typo.png")};
-  ALLEGRO_BITMAP *tekstury_budynki[] = {
-      al_load_bitmap("./images/cyard0.png"),
-      al_load_bitmap("./images/cyard1.png"),
-      al_load_bitmap("./images/cyard2.png"),
-      al_load_bitmap("./images/cyard3.png"),
-  };
+  ALLEGRO_BITMAP *tekstury_budynki[] = {al_load_bitmap("./images/cyard0.png"),
+                                        al_load_bitmap("./images/cyard1.png"),
+                                        al_load_bitmap("./images/cyard2.png"),
+                                        al_load_bitmap("./images/cyard3.png")};
+  ALLEGRO_BITMAP *tekstury_przyciski[] = {
+      al_load_bitmap("./images/wybuduj.png"), // mapa bitowa tekstur przycisków
+      al_load_bitmap("./images/anuluj.png"),
+      al_load_bitmap("./images/przycisk_fundament.png"),
+      al_load_bitmap("./images/przycisk_power_plant.png"),
+      al_load_bitmap("./images/przycisk_rafineria.png"),
+      al_load_bitmap("./images/przycisk_baraki.png"),
+      al_load_bitmap("./images/przycisk_fabryka.png")};
 
   bool done = false; // stan programu
   bool redraw = true;
@@ -187,7 +197,8 @@ int main() {
       znacznik[1] = (int)(mouse[1] / TilePxs) - 2;
       break;
     case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-      if (map[znacznik[0] + campoz[0]]
+      if (!znacznik[2] ||
+          map[znacznik[0] + campoz[0]]
              [znacznik[1] + campoz[1]] // sprawdzanie czy pole zajęte
                  ->typ[1])
         break;
@@ -195,42 +206,51 @@ int main() {
       case 0:
         break;
       case 1: // budowa fundamentu
-        if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] < 2)
+        if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] < 2 ||
+            znacznik[0] > 14 || znacznik[1] < 0 || !znacznik[2])
           break;
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] =
             fundament;
         break;
       // case 2: // budowa cyard
-      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] >
+      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1]
+      //   >
       //           1 ||
-      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] >
+      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
+      //       >
       //           1 ||
       //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
       //               ->typ[1] > 1)
       //     break;
       //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
       //           1 ||
-      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] ==
+      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
+      //       ==
       //           1 ||
-      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] ==
+      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
+      //       ==
       //           1 ||
       //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
       //               ->typ[0] == 1)
       //     break;
       //   BuildPower += 5;
       //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
-      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] = 3;
-      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] = 4;
-      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] =
+      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] =
+      //   3; map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
+      //   = 4; map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
+      //   1]->typ[1] =
       //       5;
       //   CYARD *baza = malloc(sizeof(CYARD));
       //   int hp = 100;
-      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] == 0)
+      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
+      //   0)
       //     hp += 25;
-      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] ==
+      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
+      //   ==
       //       0)
       //     hp += 25;
-      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] ==
+      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
+      //   ==
       //       0)
       //     hp += 25;
       //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
@@ -244,7 +264,7 @@ int main() {
       //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el =
       //       baza;
       //   rbudynku = 1;
-        // znacznik[2]=2; do usuwania znacznika po wybudowaniu
+      // znacznik[2]=2; do usuwania znacznika po wybudowaniu
       default:
         break;
       }
@@ -283,7 +303,27 @@ int main() {
     if (redraw && al_is_event_queue_empty(queue)) { // rysowanie
       al_draw_bitmap(tekstury[2], 0, 0, 0);
       al_draw_bitmap(tekstury[3], 1053, 174, 0);
-      for (int x = 0; x < 15 && (campoz[0]) + x < MapSize; x++)
+      if (zaznaczone[2] != 0) {
+        switch (zaznaczone[2]) {
+        case 2:
+          al_draw_bitmap(tekstury_przyciski[0], 1124, 485, 0);
+          al_draw_bitmap(tekstury_przyciski[1], 1128, 426, 0);
+          al_draw_bitmap(tekstury_przyciski[2], 1128, 310, 0);
+          al_draw_bitmap(tekstury_przyciski[3], 1190, 310, 0);
+          al_draw_bitmap(tekstury_przyciski[4], 1252, 310, 0);
+          al_draw_bitmap(tekstury_przyciski[5], 1314, 310, 0);
+          al_draw_bitmap(tekstury_przyciski[6], 1128, 368, 0);
+          break;
+
+        default:
+          break;
+        }
+      }
+      if (znacznik[0] > 14 || znacznik[1] < 0)
+        znacznik[2] = 0;
+      else
+        znacznik[2] = 1;
+      for (int x = 0; x < 15 && (campoz[0]) + x < MapSize; x++) {
         for (int y = 0; y < 10 && (campoz[1]) + y < MapSize; y++) {
           al_draw_bitmap(
               tekstury_ziemia[(map[(campoz[0]) + x][(campoz[1]) + y]->typ[0])],
@@ -304,8 +344,6 @@ int main() {
           }
           if (!znacznik[2])
             continue;
-          if (znacznik[0] > 14 || znacznik[1] < 0)
-            break;
           if (znacznik[2] > 0 && znacznik[2] < 3) {
             if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1])
               znacznik[2] = 2;
@@ -315,6 +353,7 @@ int main() {
                            znacznik[1] * TilePxs + 174, 0);
           }
         }
+      }
       al_flip_display();
 
       redraw = false;
