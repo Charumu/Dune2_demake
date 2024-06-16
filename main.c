@@ -16,6 +16,7 @@ void edjednostka(JEDNOSTKA *j1) { // funkcja do zmiany pozycji
 }
 int main() {
   unsigned int BuildPower = 5;
+  int campoz[2] = {0, 0};      // pozycja kamery
   GRID *map[MapSize][MapSize]; // tworzenie mapy
   srand(time(NULL));
   for (int i = 0; i < MapSize; i++) {
@@ -96,6 +97,31 @@ int main() {
         map[i][j]->typ[0] = 10;
     }
   }
+  for (int i = 1; i < MapSize - 1; i++) { // budowa początkowego cyard
+    if (map[i][i]->typ[0] > 1 && map[i + 1][i]->typ[0] > 1 &&
+        map[i][i + 1]->typ[0] > 1 && map[i + 1][i + 1]->typ[0] > 1) {
+      map[i][i]->typ[1] = 2;
+      map[i + 1][i]->typ[1] = 3;
+      map[i][i + 1]->typ[1] = 4;
+      map[i + 1][i + 1]->typ[1] = 5;
+      if(i > 5){
+        campoz[0]=i-6;
+        campoz[1]=i-4;
+      }
+      break;
+    }
+  }
+  for (int i = MapSize - 1; i > 1; i--) { // budowa początkowego cyard
+    if (map[i][i]->typ[0] > 1 && map[i + 1][i]->typ[0] > 1 &&
+        map[i][i + 1]->typ[0] > 1 && map[i + 1][i + 1]->typ[0] > 1) {
+      map[i][i]->typ[1] = 2;
+      map[i + 1][i]->typ[1] = 3;
+      map[i][i + 1]->typ[1] = 4;
+      map[i + 1][i + 1]->typ[1] = 5;
+      break;
+    }
+  }
+
   // respienie jednostki
   map[0][0]->el = (JEDNOSTKA *)malloc(sizeof(JEDNOSTKA));
   map[0][0]->typ[1] = Id_Jednostka;
@@ -141,8 +167,7 @@ int main() {
       al_load_bitmap("./images/cyard3.png"),
   };
 
-  int campoz[2] = {0, 0}; // pozycja kamery
-  bool done = false;      // stan programu
+  bool done = false; // stan programu
   bool redraw = true;
   int znacznik[3] = {0, 0, 1}; // znacznik budowy
   ALLEGRO_EVENT event;
@@ -174,60 +199,51 @@ int main() {
           break;
         map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] =
             fundament;
-        rbudynku = 2;
         break;
-      case 2: // budowa cyard
-        printf(
-            "%d %d %d %d\n",
-            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0],
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0],
-            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0],
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-                ->typ[0]);
-        if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] >
-                1 ||
-            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] >
-                1 ||
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-                    ->typ[1] > 1)
-          break;
-        if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
-                1 ||
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] ==
-                1 ||
-            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] ==
-                1 ||
-            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-                    ->typ[0] == 1)
-          break;
-        BuildPower += 5;
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] = 3;
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] = 4;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] =
-            5;
-        CYARD *baza = malloc(sizeof(CYARD));
-        int hp = 100;
-        if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
-        0)
-          hp+=25;
-        if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
-        == 0)
-          hp+=25;
-        if(map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
-        == 0)
-          hp+=25;
-        if(map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
-        1]->typ[0] == 0)
-          hp+=25;
-        baza->hp = hp;
+      // case 2: // budowa cyard
+      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] >
+      //           1 ||
+      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] >
+      //           1 ||
+      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+      //               ->typ[1] > 1)
+      //     break;
+      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
+      //           1 ||
+      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] ==
+      //           1 ||
+      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] ==
+      //           1 ||
+      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+      //               ->typ[0] == 1)
+      //     break;
+      //   BuildPower += 5;
+      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
+      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] = 3;
+      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1] = 4;
+      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->typ[1] =
+      //       5;
+      //   CYARD *baza = malloc(sizeof(CYARD));
+      //   int hp = 100;
+      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] == 0)
+      //     hp += 25;
+      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0] ==
+      //       0)
+      //     hp += 25;
+      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0] ==
+      //       0)
+      //     hp += 25;
+      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+      //           ->typ[0] == 0)
+      //     hp += 25;
+      //   baza->hp = hp;
 
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el = baza;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el = baza;
-        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->el = baza;
-        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el =
-            baza;
-        rbudynku = 1;
+      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el = baza;
+      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el = baza;
+      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->el = baza;
+      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el =
+      //       baza;
+      //   rbudynku = 1;
         // znacznik[2]=2; do usuwania znacznika po wybudowaniu
       default:
         break;

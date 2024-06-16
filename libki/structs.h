@@ -1,7 +1,7 @@
 #ifndef STRUCTS
 #define STRUCTS
 typedef struct {
-  short gen; // 50
+  short gen; // 100
   short hp;  // 100
 } PPLANT;
 typedef struct {
