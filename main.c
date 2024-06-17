@@ -16,6 +16,7 @@ void edjednostka(JEDNOSTKA *j1) { // funkcja do zmiany pozycji
 }
 int main() {
   unsigned int zaznaczone[3];
+  int power = 0;
   bool budowanie = false;
   int campoz[2] = {0, 0};      // pozycja kamery
   GRID *map[MapSize][MapSize]; // tworzenie mapy
@@ -67,6 +68,19 @@ int main() {
         if (map[i][j]->typ[0] == 2 && map[i][j - 1]->typ[0] == 1 &&
             map[i - 1][j]->typ[0] == 1 && map[i + 1][j]->typ[0] == 1)
           map[i][j]->typ[0] = 1;
+      }
+    }
+  }
+  for (int lel = 0; lel < 8; lel++) {
+    for (int i = 1; i < MapSize - 1; i++) {
+      for (int j = 1; j < MapSize - 1; j++) {
+        if (map[i][j]->typ[0] == 2 && map[i - 1][j]->typ[0] == 1 &&
+            map[i + 1][j]->typ[0] == 1)
+          map[i][j]->typ[0] = 1;
+          if (map[i][j]->typ[0] == 2 && map[i][j - 1]->typ[0] == 1 &&
+            map[i][j + 1]->typ[0] == 1)
+          map[i][j]->typ[0] = 1;
+
       }
     }
   }
@@ -167,7 +181,11 @@ int main() {
   ALLEGRO_BITMAP *tekstury_budynki[] = {al_load_bitmap("./images/cyard0.png"),
                                         al_load_bitmap("./images/cyard1.png"),
                                         al_load_bitmap("./images/cyard2.png"),
-                                        al_load_bitmap("./images/cyard3.png")};
+                                        al_load_bitmap("./images/cyard3.png"),
+                                        al_load_bitmap("./images/pplant0.png"),
+                                        al_load_bitmap("./images/pplant1.png"),
+                                        al_load_bitmap("./images/pplant2.png"),
+                                        al_load_bitmap("./images/pplant3.png")};
   ALLEGRO_BITMAP *tekstury_przyciski[] = {
       al_load_bitmap("./images/wybuduj.png"), // mapa bitowa tekstur przycisków
       al_load_bitmap("./images/anuluj.png"),
@@ -197,11 +215,17 @@ int main() {
       znacznik[1] = (int)(mouse[1] / TilePxs) - 2;
       break;
     case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-      if(mouse[0] > 1124 && mouse[1] > 451 && mouse[0] < 1394 && mouse[1] < 503){
+      if(mouse[0] > 1124 && mouse[1] > 451 && mouse[0] < 1394 && mouse[1] < 503 && zaznaczone[2] == 2){
         budowanie = true;
       }
-      if(mouse[0] > 1128 && mouse[1] > 392 && mouse[0] < 1389 && mouse[1] < 449){
+      if(mouse[0] > 1128 && mouse[1] > 392 && mouse[0] < 1389 && mouse[1] < 449 && zaznaczone[2] == 2){
         budowanie = false;
+      }
+      if(mouse[0] > 1128 && mouse[1] > 276 && mouse[0] < 1188 && mouse[1] < 415 && zaznaczone[2] == 2){
+        rbudynku = 1;
+      }
+      if(mouse[0] > 1190 && mouse[1] > 276 && mouse[0] < 1250 && mouse[1] < 415 && zaznaczone[2] == 2){
+        rbudynku = 2;
       }
       if (!znacznik[2] ||
           map[znacznik[0] + campoz[0]]
@@ -240,7 +264,6 @@ int main() {
       //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
       //               ->typ[0] == 1)
       //     break;
-      //   BuildPower += 5;
       //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
       //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] =
       //   3; map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
@@ -272,6 +295,37 @@ int main() {
       //       baza;
       //   rbudynku = 1;
       // znacznik[2]=2; do usuwania znacznika po wybudowaniu
+      case 2:
+        if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1]
+        >
+                1 ||
+            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
+            >
+                1 ||
+            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+                    ->typ[1] > 1)
+          break;
+        if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
+                1 ||
+            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
+            ==
+                1 ||
+            map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
+            ==
+                1 ||
+            map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
+                    ->typ[0] == 1)
+          break;
+        if(budowanie){
+        map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 6;
+        map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] =
+        7; map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
+        = 8; map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
+        1]->typ[1] =
+            9;
+            budowanie = false;
+            power += 100;
+            }
       default:
         break;
       }
