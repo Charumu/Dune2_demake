@@ -243,58 +243,6 @@ int main() {
             fundament;
             budowanie = false;
         break;
-      // case 2: // budowa cyard
-      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1]
-      //   >
-      //           1 ||
-      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
-      //       >
-      //           1 ||
-      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-      //               ->typ[1] > 1)
-      //     break;
-      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
-      //           1 ||
-      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
-      //       ==
-      //           1 ||
-      //       map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
-      //       ==
-      //           1 ||
-      //       map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-      //               ->typ[0] == 1)
-      //     break;
-      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[1] = 2;
-      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1] =
-      //   3; map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[1]
-      //   = 4; map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] +
-      //   1]->typ[1] =
-      //       5;
-      //   CYARD *baza = malloc(sizeof(CYARD));
-      //   int hp = 100;
-      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->typ[0] ==
-      //   0)
-      //     hp += 25;
-      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[0]
-      //   ==
-      //       0)
-      //     hp += 25;
-      //   if (map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->typ[0]
-      //   ==
-      //       0)
-      //     hp += 25;
-      //   if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]
-      //           ->typ[0] == 0)
-      //     hp += 25;
-      //   baza->hp = hp;
-
-      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1]]->el = baza;
-      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->el = baza;
-      //   map[znacznik[0] + campoz[0]][znacznik[1] + campoz[1] + 1]->el = baza;
-      //   map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1] + 1]->el =
-      //       baza;
-      //   rbudynku = 1;
-      // znacznik[2]=2; do usuwania znacznika po wybudowaniu
       case 2:
         if (map[znacznik[0] + campoz[0] + 1][znacznik[1] + campoz[1]]->typ[1]
         >
@@ -428,10 +376,3 @@ int main() {
 
   return 0;
 }
-/*
-budowa cyard stawianie z MCV
-ruch jednostek algorytm A*
-budowa z cyard - tablica [3][6]
-produkcja jednostek podobnie jak produkcja z cyard
-walka system oparty na cyklach
-*/
